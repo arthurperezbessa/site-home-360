@@ -890,6 +890,14 @@
                 z-index: 0;
                 pointer-events: none;
             }
+            /* Imagem é background no mobile — não precisa da animação de reveal,
+               que aplica transform e cria stacking context competindo com o texto */
+            .about-image.reveal,
+            .about-image.reveal.visible {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
             .about-image img {
                 filter: brightness(0.28) saturate(0.85);
             }

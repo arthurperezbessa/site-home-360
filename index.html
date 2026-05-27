@@ -36,7 +36,10 @@
     <meta name="twitter:image" content="https://www.h360.com.br/imagens/fundo_hero.jpg">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="imagens/logo-home360.png">
+    <!-- Favicon: arquivo PNG da logo APENAS do ícone (sem o texto "Home 360").
+         Recomendado: 512×512px, quadrado, fundo transparente, ícone centralizado com ~10% de margem. -->
+    <link rel="icon" type="image/png" href="imagens/favicon.png">
+    <link rel="apple-touch-icon" href="imagens/favicon.png">
 
     <!-- ============================================================
          STRUCTURED DATA (Schema.org) — Ajuda muito no SEO local
@@ -736,6 +739,7 @@
         }
         .footer-brand { font-family: var(--font-display); font-size: 1.75rem; margin-bottom: 1rem; }
         .footer-brand em { color: var(--accent); font-style: italic; font-weight: 400; }
+        .footer-brand img { height: 2.75rem; width: auto; display: block; margin-bottom: 0.25rem; }
         .footer p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.7; }
         .footer h4 {
             font-family: var(--font-body);
@@ -816,6 +820,34 @@
         /* ============================================================
            RESPONSIVO
            ============================================================ */
+        /* Botão de expandir soluções — escondido no desktop, visível no mobile */
+        .solution-toggle {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-strong);
+            padding: 0.85rem 1.1rem;
+            font-family: inherit;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            margin-bottom: 1.25rem;
+            transition: all 0.3s ease;
+        }
+        .solution-toggle:hover { border-color: var(--accent); color: var(--accent); }
+        .solution-toggle-icon {
+            font-size: 1.5rem;
+            line-height: 1;
+            transition: transform 0.3s ease;
+            color: var(--accent);
+        }
+        .solution-card.expanded .solution-toggle-icon { transform: rotate(45deg); }
+
         @media (max-width: 960px) {
             .nav-menu { display: none; }
             .nav-toggle { display: flex; }
@@ -832,14 +864,53 @@
                 border-bottom: 1px solid var(--border);
             }
             .nav-cta { display: none; }
-            .about-grid, .solutions-grid, .portfolio-inner, .contact-grid, .footer-grid {
+            .solutions-grid, .portfolio-inner, .contact-grid, .footer-grid {
                 grid-template-columns: 1fr;
             }
-            .about-image { aspect-ratio: 16/12; max-height: 500px; }
             .footer-grid { gap: 2rem; }
             .footer-bottom { flex-direction: column; text-align: center; }
             .form-row { grid-template-columns: 1fr; }
             .ig-mosaic { aspect-ratio: 4/5; }
+
+            /* ----- QUEM SOMOS (mobile): imagem vira background do section ----- */
+            .about { position: relative; overflow: hidden; isolation: isolate; }
+            .about > .container { position: relative; z-index: 2; }
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            .about-image {
+                position: absolute;
+                inset: 0;
+                aspect-ratio: auto;
+                max-height: none;
+                z-index: 0;
+                pointer-events: none;
+            }
+            .about-image img {
+                filter: brightness(0.28) saturate(0.85);
+            }
+            .about-image::after {
+                background:
+                    linear-gradient(180deg, rgba(10,10,10,0.65) 0%, rgba(10,10,10,0.55) 50%, rgba(10,10,10,0.92) 100%),
+                    radial-gradient(ellipse at center, transparent 0%, rgba(10,10,10,0.35) 80%);
+            }
+            .about-image:hover img { transform: none; }
+
+            /* ----- SOLUÇÕES (mobile): lista colapsada, expandir ao clicar ----- */
+            .solution-toggle { display: flex; }
+            .solution-list {
+                display: none;
+                margin-top: 0;
+            }
+            .solution-card.expanded .solution-list {
+                display: block;
+                animation: solutionListFade 0.35s ease both;
+            }
+        }
+        @keyframes solutionListFade {
+            from { opacity: 0; transform: translateY(-6px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
         @media (max-width: 600px) {
             .hero-actions { flex-direction: column; align-items: stretch; }
@@ -869,7 +940,6 @@
                     <a href="#solucoes">Soluções</a>
                     <a href="#portfolio">Portfólio</a>
                     <a href="#contato">Contato</a>
-                    <a href="#contato" class="nav-cta">Falar com a Home 360</a>
                 </div>
             </nav>
         </div>
@@ -968,7 +1038,11 @@
                     <div class="solution-body">
                         <h3 class="solution-title">Áudio e Vídeo</h3>
                         <p class="solution-tagline">Cinema, música e imagem com qualidade de referência.</p>
-                        <ul class="solution-list">
+                        <button class="solution-toggle" type="button" aria-expanded="false" aria-controls="solution-list-1">
+                            <span class="solution-toggle-label">Ver soluções</span>
+                            <span class="solution-toggle-icon" aria-hidden="true">+</span>
+                        </button>
+                        <ul class="solution-list" id="solution-list-1">
                             <li>
                                 <div>
                                     <strong>Home Theater</strong>
@@ -1008,7 +1082,11 @@
                     <div class="solution-body">
                         <h3 class="solution-title">Casa Inteligente</h3>
                         <p class="solution-tagline">Automação residencial pensada para facilitar sua rotina.</p>
-                        <ul class="solution-list">
+                        <button class="solution-toggle" type="button" aria-expanded="false" aria-controls="solution-list-2">
+                            <span class="solution-toggle-label">Ver soluções</span>
+                            <span class="solution-toggle-icon" aria-hidden="true">+</span>
+                        </button>
+                        <ul class="solution-list" id="solution-list-2">
                             <li><div><strong>Iluminação</strong><span>Cenas e dimerização inteligente</span></div></li>
                             <li><div><strong>Climatização</strong><span>Controle remoto do ar-condicionado</span></div></li>
                             <li><div><strong>Entretenimento</strong><span>Tudo num único controle ou comando de voz</span></div></li>
@@ -1030,7 +1108,11 @@
                     <div class="solution-body">
                         <h3 class="solution-title">Corporativo</h3>
                         <p class="solution-tagline">Salas, auditórios e escritórios prontos para o que vier.</p>
-                        <ul class="solution-list">
+                        <button class="solution-toggle" type="button" aria-expanded="false" aria-controls="solution-list-3">
+                            <span class="solution-toggle-label">Ver soluções</span>
+                            <span class="solution-toggle-icon" aria-hidden="true">+</span>
+                        </button>
+                        <ul class="solution-list" id="solution-list-3">
                             <li>
                                 <div>
                                     <strong>Videoconferência</strong>
@@ -1194,7 +1276,7 @@
         <div class="container">
             <div class="footer-grid">
                 <div>
-                    <div class="footer-brand">Home<em> 360</em></div>
+                    <div class="footer-brand"><img src="imagens/logo-home360.png" alt="Home 360"></div>
                     <p>Integradora de automação residencial, home theater e soluções audiovisuais em Fortaleza, Ceará. Tecnologia premium e projetos sob medida.</p>
                 </div>
                 <div>
@@ -1299,6 +1381,18 @@
         const navMenu = document.getElementById('navMenu');
         navToggle.addEventListener('click', () => navMenu.classList.toggle('open'));
         navMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navMenu.classList.remove('open')));
+
+        // Toggle de lista de soluções (mobile)
+        document.querySelectorAll('.solution-toggle').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const card = btn.closest('.solution-card');
+                if (!card) return;
+                const isExpanded = card.classList.toggle('expanded');
+                btn.setAttribute('aria-expanded', String(isExpanded));
+                const label = btn.querySelector('.solution-toggle-label');
+                if (label) label.textContent = isExpanded ? 'Ocultar soluções' : 'Ver soluções';
+            });
+        });
 
         // Reveal on scroll com IntersectionObserver
         const observer = new IntersectionObserver((entries) => {

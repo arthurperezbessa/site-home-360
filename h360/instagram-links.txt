@@ -1,0 +1,17 @@
+# LINKS DOS POSTS DO INSTAGRAM
+# ============================================================
+# Cole aqui o link de cada post do Instagram correspondente.
+# Formato:  instagram-X - URL_DO_POST
+#
+# - Linhas começando com # são ignoradas (são comentários).
+# - Pode usar " - " (espaço hífen espaço) OU ":" como separador.
+# - Se deixar em branco, a imagem vai pro perfil em vez do post.
+# - As mudanças aparecem assim que o site for atualizado no servidor.
+# ============================================================
+
+instagram-1 - https://www.instagram.com/p/DN8DFMvkZlb/
+instagram-2 - 
+instagram-3 - 
+instagram-4 - 
+instagram-5 - 
+instagram-6 - 

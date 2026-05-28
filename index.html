@@ -354,28 +354,51 @@
         .btn .arrow { transition: transform 0.3s ease; }
         .btn:hover .arrow { transform: translateX(4px); }
 
+        /* Indicador "Clique ou role para descobrir" — estilo visual compartilhado */
+        .hero-scroll, .scroll-cue {
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem 0;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .hero-scroll:hover, .scroll-cue:hover { color: var(--text-primary); }
+        .hero-scroll:hover::after, .scroll-cue:hover::after {
+            background: linear-gradient(to bottom, var(--accent), var(--accent));
+            height: 48px;
+        }
+        .hero-scroll:focus-visible, .scroll-cue:focus-visible {
+            outline: 1px solid var(--accent);
+            outline-offset: 0.5rem;
+        }
+        .hero-scroll::after, .scroll-cue::after {
+            content: "";
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--accent), transparent);
+            animation: scrollBounce 2s ease-in-out infinite;
+            transition: height 0.3s ease, background 0.3s ease;
+        }
+        /* Posicionamento específico do Hero (absoluto, no fundo) */
         .hero-scroll {
             position: absolute;
             bottom: 2rem;
             left: 50%;
             transform: translateX(-50%);
             z-index: 2;
-            font-size: 0.7rem;
-            letter-spacing: 0.3em;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.75rem;
             animation: fadeInUp 1.5s ease 1s both;
         }
-        .hero-scroll::after {
-            content: "";
-            width: 1px;
-            height: 40px;
-            background: linear-gradient(to bottom, var(--accent), transparent);
-            animation: scrollBounce 2s ease-in-out infinite;
+        /* Posicionamento inline para as demais seções */
+        .scroll-cue {
+            margin: 5rem auto 0;
+            width: fit-content;
         }
         @keyframes scrollBounce {
             0%, 100% { transform: scaleY(1); opacity: 0.7; }
@@ -977,13 +1000,12 @@
                 Soluções em Áudio, Vídeo e Automação.
             </p>
             <div class="hero-actions">
-                <a href="#solucoes" class="btn btn-primary">
-                    Conheça as soluções <span class="arrow">→</span>
-                </a>
                 <a href="#contato" class="btn btn-ghost">Fale conosco</a>
             </div>
         </div>
-        <div class="hero-scroll">Role para descobrir</div>
+        <a href="#sobre" class="hero-scroll" aria-label="Clique ou role para conhecer mais sobre a Home 360">
+            <span class="hero-scroll-text">Clique ou role para descobrir</span>
+        </a>
     </section>
 
     <!-- ============================================================
@@ -1023,6 +1045,9 @@
                     <img src="imagens/quem-somos.jpg" onerror="imgFallback(this, 'quem-somos')" alt="Ambiente residencial com automação e tecnologia integrada" loading="lazy">
                 </div>
             </div>
+            <a href="#solucoes" class="scroll-cue reveal" aria-label="Clique ou role para ver nossas soluções">
+                <span>Clique ou role para descobrir</span>
+            </a>
         </div>
     </section>
 
@@ -1147,6 +1172,9 @@
                 </article>
 
             </div>
+            <a href="#portfolio" class="scroll-cue reveal" aria-label="Clique ou role para ver nosso portfólio">
+                <span>Clique ou role para descobrir</span>
+            </a>
         </div>
     </section>
 
@@ -1189,6 +1217,9 @@
                     </a>
                 </div>
             </div>
+            <a href="#contato" class="scroll-cue reveal" aria-label="Clique ou role para falar com a Home 360">
+                <span>Clique ou role para descobrir</span>
+            </a>
         </div>
     </section>
 

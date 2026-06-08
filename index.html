@@ -1414,8 +1414,18 @@
         const WA_MENSAGEM = 'Olá Home 360! Vi o site de vocês e gostaria de saber mais sobre as soluções em automação, áudio e vídeo.';
         const WA_LINK = `https://wa.me/${WA_NUMERO}?text=${encodeURIComponent(WA_MENSAGEM)}`;
 
-        // Aplica esse link em todos os botões/ícones de WhatsApp do site
-        document.querySelectorAll('a[data-wa]').forEach(a => a.href = WA_LINK);
+        // Dispara o evento de conversão no GA4 (gtag já está no <head>)
+        function registrarConversaoWhats(origem) {
+            if (typeof gtag === 'function') {
+                gtag('event', 'contato_whatsapp', { origem: origem });
+            }
+        }
+
+        // Aplica o link em todos os botões de WhatsApp e registra o clique
+        document.querySelectorAll('a[data-wa]').forEach(a => {
+            a.href = WA_LINK;
+            a.addEventListener('click', () => registrarConversaoWhats('botao'));
+        });
 
         // Ano dinâmico no footer
         document.getElementById('year').textContent = new Date().getFullYear();
@@ -1498,6 +1508,7 @@
             const msg = f.message.value;
 
             const texto = `Olá Home 360! Sou ${nome}.\n\n*Assunto:* ${assunto}\n*E-mail:* ${email}\n*Telefone:* ${fone}\n\n${msg}`;
+            registrarConversaoWhats('formulario');
             window.open(`https://wa.me/${WA_NUMERO}?text=${encodeURIComponent(texto)}`, '_blank');
             return false;
         }
